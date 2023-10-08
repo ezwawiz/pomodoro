@@ -12,7 +12,7 @@ export default function Home() {
   const { seconds } = useTimerContext()
 
   return (
-    <main className="">
+    <main className="h-screen">
       <Container />
     </main>
   )

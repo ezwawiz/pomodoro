@@ -62,7 +62,7 @@ export default function Container() {
   }
 
   return (
-    <div className="flex flex-col items-center border border-black/10 rounded-xl sm:w-3/5 mx-auto h-screen">
+    <div className="flex h-4/5 flex-col items-center sm:border sm:border-black/10 sm:rounded-xl sm:w-3/5 mx-auto mh-auto">
       <div className="flex sm:gap-2 w-full">
         <TimeButton name="Short Break" id={1} changeDuration={changeDuration} />
         <TimeButton name="Work" id={0} changeDuration={changeDuration} />
@@ -84,7 +84,7 @@ export default function Container() {
 
       <Timer reset={reset} next={nextDuration} />
 
-      <div className="flex sm:gap-4">
+      <div className="flex sm:gap-4 ">
         <div className="flex">
           <StartButton />
           <NextButton next={nextDuration} />
