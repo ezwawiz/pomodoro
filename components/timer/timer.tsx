@@ -1,5 +1,5 @@
 import { useTimerContext } from "@/context/timer-context"
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 
 type TimerProps = {
   reset: () => void
@@ -9,10 +9,10 @@ type TimerProps = {
 export default function Timer({ reset, next }: TimerProps) {
   const { seconds, setSeconds, timerStarted } = useTimerContext()
 
-  const timeUp = () => {
+  const timeUp = useCallback(() => {
     reset()
     next()
-  }
+  }, [reset, next])
 
   function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60)

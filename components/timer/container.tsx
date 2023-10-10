@@ -70,21 +70,23 @@ export default function Container() {
       </div>
 
       <Canvas
-        className=""
+        className="z-10 w-screen h-screen"
         camera={{
           fov: 40,
           near: 0.1,
           far: 200,
-          position: [0, 2, 8],
+          position: [0, 2, 5.5],
         }}
         shadows
       >
+        {/* <color attach="background" args={["red"]} /> */}
+
         <Experience />
       </Canvas>
 
       <Timer reset={reset} next={nextDuration} />
 
-      <div className="flex sm:gap-4 ">
+      <div className="flex justify-center w-full sm:gap-4 ">
         <div className="flex">
           <StartButton />
           <NextButton next={nextDuration} />
