@@ -1,97 +1,47 @@
-import React from "react"
-import TimeButton from "./time-button"
-import StartButton from "./start-button"
-import ResetButton from "./reset-button"
-import Timer from "./timer"
-import { useTimerContext } from "@/context/timer-context"
-import NextButton from "./next-button"
-import { Canvas } from "@react-three/fiber"
-import Experience from "./experience"
+import React from 'react'
+import Timer from './timer'
+import { Canvas } from '@react-three/fiber'
+import Experience from './experience'
+import TimeBar from './time-bar'
+import ActionBar from './action-bar'
+
+const CanvasBackground = () => {
+  return (
+    <Canvas
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -1,
+      }}
+      camera={{
+        fov: 40,
+        near: 0.1,
+        far: 200,
+        position: [0, 2.2, -4.5],
+      }}
+      // shadows
+    >
+      {/* <color attach='background' args={['blue']} /> */}
+      <Experience />
+    </Canvas>
+  )
+}
 
 export default function Container() {
-  const {
-    setTimerStarted,
-    durationId,
-    workCount,
-    setSeconds,
-    WORK,
-    SHORTBREAK,
-    LONGBREAK,
-  } = useTimerContext()
-
-  const reset = () => {
-    setTimerStarted(false)
-
-    if (durationId.current == 0) {
-      setSeconds(WORK)
-    } else if (durationId.current == 1) {
-      setSeconds(SHORTBREAK)
-    } else {
-      setSeconds(LONGBREAK)
-    }
-  }
-
-  const changeDuration = (id: number) => {
-    reset()
-    durationId.current = id
-
-    if (id == 0) {
-      return setSeconds(WORK)
-    } else if (id == 1) {
-      return setSeconds(SHORTBREAK)
-    } else if (id == 2) {
-      return setSeconds(LONGBREAK)
-    }
-  }
-
-  const nextDuration = () => {
-    if (durationId.current == 0) {
-      ++workCount.current
-      console.log("work count is " + workCount.current)
-      if (workCount.current == 4) {
-        workCount.current = 0
-        durationId.current = 2
-      } else {
-        durationId.current = 1
-      }
-    } else if (durationId.current == 1 || durationId.current == 2) {
-      durationId.current = 0
-    }
-
-    changeDuration(durationId.current)
-  }
-
   return (
-    <div className="flex h-4/5 flex-col items-center sm:border sm:border-black/10 sm:rounded-xl sm:w-3/5 mx-auto mh-auto">
-      <div className="flex sm:gap-2 w-full">
-        <TimeButton name="Short Break" id={1} changeDuration={changeDuration} />
-        <TimeButton name="Work" id={0} changeDuration={changeDuration} />
-        <TimeButton name="Long Break" id={2} changeDuration={changeDuration} />
-      </div>
-
-      <Canvas
-        className="z-10 w-screen h-screen"
-        camera={{
-          fov: 40,
-          near: 0.1,
-          far: 200,
-          position: [0, 2, 5.5],
-        }}
-        shadows
-      >
-        {/* <color attach="background" args={["red"]} /> */}
-
-        <Experience />
-      </Canvas>
-
-      <Timer reset={reset} next={nextDuration} />
-
-      <div className="flex justify-center w-full sm:gap-4 ">
-        <div className="flex">
-          <StartButton />
-          <NextButton next={nextDuration} />
+    <div className='flex items-center justify-center h-full'>
+      <CanvasBackground />
+      <div className='absolute sm:w-3/5'>
+        <div className='flex flex-col h-screen justify-between'>
+          <TimeBar />
+          <div className='flex flex-col items-center w-full sm:mb-16'>
+            <Timer />
+            <ActionBar />
+          </div>
         </div>
-        <ResetButton reset={reset} />
       </div>
     </div>
   )

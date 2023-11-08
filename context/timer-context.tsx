@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import React, { useState, createContext, useContext, useRef } from "react"
+import React, { useState, createContext, useContext, useRef } from 'react'
 
 type TimerContextProviderProps = {
   children: React.ReactNode
@@ -18,6 +18,10 @@ type TimerContextType = {
   setSeconds: React.Dispatch<React.SetStateAction<number>>
   timerStarted: boolean
   setTimerStarted: React.Dispatch<React.SetStateAction<boolean>>
+
+  reset: () => void
+  changeDuration: (id: number) => void
+  nextDuration: () => void
 }
 
 export const TimerContext = createContext<TimerContextType | null>(null)
@@ -35,6 +39,48 @@ export default function TimerContextProvider({
   const [seconds, setSeconds] = useState(WORK)
   const [timerStarted, setTimerStarted] = useState(false)
 
+  const reset = () => {
+    setTimerStarted(false)
+
+    if (durationId.current === 0) {
+      setSeconds(WORK)
+    } else if (durationId.current === 1) {
+      setSeconds(SHORTBREAK)
+    } else {
+      setSeconds(LONGBREAK)
+    }
+  }
+
+  const changeDuration = (id: number) => {
+    reset()
+    durationId.current = id
+
+    if (id === 0) {
+      return setSeconds(WORK)
+    } else if (id === 1) {
+      return setSeconds(SHORTBREAK)
+    } else if (id === 2) {
+      return setSeconds(LONGBREAK)
+    }
+  }
+
+  const nextDuration = () => {
+    if (durationId.current === 0) {
+      ++workCount.current
+      console.log('work count is ' + workCount.current)
+      if (workCount.current === 4) {
+        workCount.current = 0
+        durationId.current = 2
+      } else {
+        durationId.current = 1
+      }
+    } else if (durationId.current === 1 || durationId.current === 2) {
+      durationId.current = 0
+    }
+
+    changeDuration(durationId.current)
+  }
+
   return (
     <TimerContext.Provider
       value={{
@@ -49,6 +95,10 @@ export default function TimerContextProvider({
         setSeconds,
         timerStarted,
         setTimerStarted,
+
+        reset,
+        changeDuration,
+        nextDuration,
       }}
     >
       {children}
@@ -61,7 +111,7 @@ export function useTimerContext() {
 
   if (context === null) {
     throw new Error(
-      "useActiveSectionContext must be used within an ActiveSectionContextProvider"
+      'useActiveSectionContext must be used within an ActiveSectionContextProvider'
     )
   }
 

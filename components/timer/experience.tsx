@@ -1,55 +1,64 @@
-import React, { useRef } from "react"
-import { useFrame, useLoader } from "@react-three/fiber"
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
-import { OrbitControls } from "@react-three/drei"
-import { useTimerContext } from "@/context/timer-context"
+import React, { useRef } from 'react'
+import { RootState, useFrame } from '@react-three/fiber'
+import {
+  SoftShadows,
+  Stage,
+  Html,
+  useTexture,
+  Center,
+  OrbitControls,
+  Sky,
+  Environment,
+} from '@react-three/drei'
+import { useTimerContext } from '@/context/timer-context'
+import Image from 'next/image'
+import * as THREE from 'three'
 
 export default function Experience() {
-  const model = useLoader(GLTFLoader, "./models/donut.glb")
-  console.log(model)
+  const { timerStarted, durationId } = useTimerContext()
 
-  const { timerStarted } = useTimerContext()
-  const sphereRef = useRef<THREE.Mesh>(null!)
-  const donut = useRef<THREE.Mesh>(null!)
+  const modelColor = ['#ef4444', '#f59e0b', '#6366f1']
+  const sceneBgColor = ['#f87171', '#fbbf24', '#818cf8']
+
+  const modelRef = useRef<THREE.Mesh>(null!)
 
   useFrame((state, delta) => {
     if (timerStarted) {
-      // donut.current.rotation.x += delta
-      // donut.current.rotation.y += delta
-      donut.current.rotation.z += delta * 3
-      // sphereRef.current.rotation.x += delta
+      // if (durationId.current === 0) animateWork(delta)
+      if (durationId.current === 1) animateShortBreak(state)
+      if (durationId.current === 2) animateLongBreak(delta)
     }
   })
 
+  const animateShortBreak = (state: RootState) => {
+    const scaleSpeed = 0.43
+
+    // Calculate the scale factor based on time
+    const scaleFactor =
+      0.15 * Math.sin(state.clock.elapsedTime * scaleSpeed) + 0.5
+
+    // Set the new scale for the sphere
+    modelRef.current.scale.set(scaleFactor, scaleFactor, scaleFactor)
+  }
+
+  const animateLongBreak = (delta: number) => {
+    // let direction = -delta
+    // if (modelRef.current.position.x == -2 || modelRef.current.position.x == 2) {
+    //   modelRef.current.position.x += direction
+    //   direction *= -1
+    // }
+  }
+
   return (
     <>
-      <OrbitControls />
+      <ambientLight intensity={1.6} />
+      <directionalLight position={[0, 6, 0]} intensity={5} />
+      <color attach='background' args={[sceneBgColor[durationId.current]]} />
 
-      <ambientLight />
-      <directionalLight position={[0, 5, 3]} castShadow />
-
-      {/* <mesh ref={sphereRef} position={[0, 0.5, 0]} scale={2} castShadow>
-        <boxGeometry />
-        <meshStandardMaterial color="mediumpurple" />
-      </mesh> */}
-
-      {/* <mesh
-        position-y={-1}
-        rotation-x={-Math.PI * 0.5}
-        scale={15}
-        receiveShadow
-      >
-        <planeGeometry />
-        <meshStandardMaterial transparent opacity={0.2} color="greenyellow" />
-      </mesh> */}
-
-      <primitive
-        ref={donut}
-        scale={1}
-        position={[0, 0, 0]}
-        rotation={[1, 0, 0]}
-        object={model.scene}
-      />
+      <mesh ref={modelRef} scale={0.5} position={[0, 0.19, 0]}>
+        <sphereGeometry />
+        <meshStandardMaterial color={modelColor[durationId.current]} />
+      </mesh>
     </>
   )
 }
