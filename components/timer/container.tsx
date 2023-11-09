@@ -33,10 +33,10 @@ const CanvasBackground = () => {
 
 export default function Container() {
   return (
-    <div className='flex items-center justify-center h-full'>
+    <div className='flex items-center justify-center w-full h-full'>
       <CanvasBackground />
-      <div className='absolute sm:w-3/5'>
-        <div className='flex flex-col h-screen justify-between'>
+      <div className='w-full'>
+        <div className='flex flex-col h-screen justify-between items-center w-full'>
           <TimeBar />
           <div className='flex flex-col w-full justify-center items-center sm:mb-16'>
             <Timer />

@@ -10,23 +10,23 @@ export default function TimeBar() {
   }
 
   return (
-    <div className='flex sm:gap-2 sm:mt-28 w-screen sm:w-11/12'>
+    <div className='flex sm:gap-3 sm:mt-28 w-screen sm:w-3/4 text-lg text-white font-bold'>
       <button
-        className='flex-grow py-2 sm:rounded-lg bg-yellow-500 active:bg-yellow-500 shadow-xl text-white font-bold'
+        className='flex-grow py-[0.75rem] sm:rounded-lg bg-yellow-500 active:bg-yellow-600 shadow-xl'
         onClick={() => changeTime(1)}
       >
         Short Break
       </button>
 
       <button
-        className='flex-grow py-2 sm:rounded-lg bg-red-500 active:bg-red-600 shadow-xl text-white font-bold'
+        className='flex-grow py-2 sm:rounded-lg bg-red-500 active:bg-red-600 shadow-xl'
         onClick={() => changeTime(0)}
       >
         Work
       </button>
 
       <button
-        className='flex-grow py-2 sm:rounded-lg bg-indigo-500 active:bg-indigo-600 shadow-xl text-white font-bold'
+        className='flex-grow py-2 sm:rounded-lg bg-indigo-500 active:bg-indigo-600 shadow-xl '
         onClick={() => changeTime(2)}
       >
         Long Break

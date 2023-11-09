@@ -48,7 +48,7 @@ export default function Experience() {
   }
 
   const animateWork = (delta: number) => {
-    modelRef.current.rotation.y += delta
+    modelRef.current.rotation.y += delta * 1.8
   }
 
   const animateLongBreak = (delta: number) => {

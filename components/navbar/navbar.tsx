@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <header className='hidden sm:block sm:fixed top-0 right-0 bg-transparent z-10'>
       <nav className='justify-end flex mt-[0.5rem] mr-[0.5rem]'>
-        <ul className='flex gap-2'>
+        <ul className='flex gap-3'>
           {/* <li className='bg-neutral-300 w-[2.5rem] h-[2.5rem] bg-opacity-80 backdrop-blur-[0.5rem] shadow-2xl rounded-xl flex items-center justify-center active:scale-105 transition-all cursor-pointer'>
             {' '}
             <FaUser />{' '}
