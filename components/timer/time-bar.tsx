@@ -10,7 +10,7 @@ export default function TimeBar() {
   }
 
   return (
-    <div className='flex sm:gap-2 sm:mt-28 w-full'>
+    <div className='flex sm:gap-2 sm:mt-28 w-screen sm:w-11/12'>
       <button
         className='flex-grow py-2 sm:rounded-lg bg-yellow-500 active:bg-yellow-500 shadow-xl text-white font-bold'
         onClick={() => changeTime(1)}
